@@ -1,0 +1,46 @@
+name: Deploy Event Check-In Application
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Sync files to server
+        uses: burnett01/rsync-deployments@5.2
+        with:
+          switches: -avzr
+          path: ./
+          remote_path: /home/github/check-in
+          remote_host: ${{ secrets.HOST }}
+          remote_user: ${{ secrets.USERNAME }}
+          remote_key: ${{ secrets.SSH_KEY }}
+
+      - name: Deploy with Docker Compose
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/github/check-in
+            docker compose down
+            docker compose up -d --build --remove-orphans
+
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "Deployment successful"
+          else
+            echo "Deployment failed"
+          fi

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Check-In</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="checkin-card">
+            <div class="logo-container">
+                <img src="images/dec_logo_dark.png" alt="DEC Logo" class="logo">
+            </div>
+            <h1 class="card-title">Event Check-In</h1>
+
+            <!-- Email Input Form -->
+            <form id="checkinForm" class="checkin-form">
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter attendee email address" required
+                        autocomplete="email">
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Check In
+                </button>
+            </form>
+
+            <!-- Preloader/Spinner -->
+            <div class="preloader" id="preloader">
+                <div class="spinner"></div>
+                <p>Checking attendee status...</p>
+            </div>
+
+            <!-- Response Display Area -->
+            <div class="response-section" id="responseSection">
+                <!-- Status messages will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
