@@ -1,0 +1,36 @@
+services:
+  event-checkin:
+    build: .
+    container_name: event-checkin-app
+    ports:
+      - "3030:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - JWT_SECRET=${JWT_SECRET}
+      - LOOKUP_ENDPOINT=${LOOKUP_ENDPOINT:-https://automation.decjobboard.online/webhook/lookup-checkin}
+      - UPDATE_ENDPOINT=${UPDATE_ENDPOINT:-https://automation.decjobboard.online/webhook/update-checkin}
+    volumes:
+      # Mount logs directory for persistent logging
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/api/config', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - event-checkin-network
+      - airflow-v2_nginx-network 
+
+
+networks:
+  event-checkin-network:
+    driver: bridge
+  airflow-v2_nginx-network:
+    external: true
+
+volumes:
+  logs:
+    driver: local
