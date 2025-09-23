@@ -11,7 +11,6 @@ services:
       - LOOKUP_ENDPOINT=${LOOKUP_ENDPOINT:-https://automation.decjobboard.online/webhook/lookup-checkin}
       - UPDATE_ENDPOINT=${UPDATE_ENDPOINT:-https://automation.decjobboard.online/webhook/update-checkin}
     volumes:
-      # Mount logs directory for persistent logging
       - ./logs:/app/logs
     restart: unless-stopped
     healthcheck:
@@ -31,6 +30,3 @@ networks:
   airflow-v2_nginx-network:
     external: true
 
-volumes:
-  logs:
-    driver: local
