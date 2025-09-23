@@ -1,6 +1,3 @@
-# dec-event-checkin-app
-A lightweight web application for event check-ins, allowing attendees to authenticate, verify, and mark their attendance seamlessly.
-
 # Event Check-In Interface
 
 A responsive web application for checking in attendees at community event. Built with vanilla HTML, CSS, and JavaScript.
