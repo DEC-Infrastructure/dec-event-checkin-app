@@ -310,6 +310,19 @@ async function updateAttendeeStatus(email) {
             }
         }, email);
 
+        // Fire-and-forget: trigger confirmation email (server-side only, no secrets exposed)
+        try {
+            const name = (currentAttendeeData && (currentAttendeeData.fullName || currentAttendeeData.Name)) || '';
+            await fetch('/api/send-checkin-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ toEmail: email, fullName: name, checkInTime: currentTime })
+            });
+        } catch (e) {
+            // Intentionally non-blocking; log for diagnostics only
+            console.log('Email send trigger failed:', e.message);
+        }
+
     } catch (error) {
         console.error('Error updating attendee status:', error);
 
