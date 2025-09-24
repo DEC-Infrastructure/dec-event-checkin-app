@@ -10,6 +10,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - LOOKUP_ENDPOINT=${LOOKUP_ENDPOINT:-https://automation.decjobboard.online/webhook/lookup-checkin}
       - UPDATE_ENDPOINT=${UPDATE_ENDPOINT:-https://automation.decjobboard.online/webhook/update-checkin}
+      - RESEND_KEY=${RESEND_KEY}
     volumes:
       - ./logs:/app/logs
     restart: unless-stopped
