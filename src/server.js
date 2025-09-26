@@ -75,11 +75,11 @@ app.post('/api/send-checkin-email', async (req, res) => {
         }
 
         // Prepare attachment 
-        const attachmentPath = path.join(__dirname, 'attachments/Letter Of Recommendation for Ikechukwu Faith.pdf');
+        const attachmentPath = path.join(__dirname, 'attachments/DEC Meetup Lagos 2025 Agenda.pdf');
         let attachments = [];
         try {
             const pdfBuffer = fs.readFileSync(attachmentPath);
-            attachments.push({ filename: 'Letter Of Recommendation for Ikechukwu Faith.pdf', content: pdfBuffer });
+            attachments.push({ filename: 'DEC Meetup Lagos 2025 Agenda.pdf', content: pdfBuffer });
         } catch (_) {
             // If file missing, send email without attachment
             attachments = [];
